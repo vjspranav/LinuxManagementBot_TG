@@ -1,0 +1,5 @@
+{
+  "telegram": {
+    "token": "<token of your telegram bot>"
+  }
+}
