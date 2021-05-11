@@ -68,10 +68,6 @@ def start(update, context):
 
 @superuser_restricted
 def suadd(update, context):
-    #inp = update.message.text.split(" ")
-    #luname = inp[1]
-    ## To do
-    # Add chck if username exists
     send="User successfully promoted"
     if update.message.reply_to_message:
         uid = update.message.reply_to_message.from_user.id  
@@ -79,8 +75,6 @@ def suadd(update, context):
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="No user tagged")
         return
-#    if not luname:
-#        context.bot.send_message(chat_id=update.effective_chat.id, text="Username not provided")
     tconfig = {}    
     with open("restricted.json") as json_config_file:
         tconfig = json.load(json_config_file)      
@@ -123,7 +117,7 @@ def add(update, context):
         return 
     luname = inp[1]
     ## To do
-    # Add chck if username exists    
+    # Add check if username exists    
     if update.message.reply_to_message:
         uid = update.message.reply_to_message.from_user.id  
         uname = update.message.reply_to_message.from_user.username
