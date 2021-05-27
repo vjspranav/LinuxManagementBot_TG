@@ -44,4 +44,5 @@ Ex: Username is **vjspranav** and id is **12345**
 > TODO: Do no allow bots to be added  
 ### /add <linux username>
 * Links the user of tagged message to the linux username mentioned, dooes not work if mentioned user already is linked  
-> TODO: Make sure linux user exists.  
+### /storage
+* Checks the storage occupied by the linked user running the command
