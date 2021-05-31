@@ -1,5 +1,11 @@
 {
   "telegram": {
     "token": "<token of your telegram bot>"
+  },
+
+  "jenkins": {
+    "host": "https://jenkins.example.com",
+    "user": "jenkins",
+    "pass": "jenkins"
   }
 }

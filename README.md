@@ -12,6 +12,11 @@ pip install python-telegram-bot
 {
   "telegram": {
     "token": "1234xyz:abcdefghj"
+  },
+  "jenkins": {
+    "host": "jenkins.example.com",
+    "user": "example",
+    "pass": "example123"
   }
 }
 ```
@@ -28,7 +33,7 @@ Ex: Username is **vjspranav** and id is **12345**
 ```
 
 ## Explanation
-* config.json contains your telegram token
+* config.json contains your telegram token as well jenkins credentials
 * restricted.json contains which users the bot is restricted to
 * users.json contains the links from tguser to linux user in server (to be added through commands)
 * The restricted.json can be edited while the bot is running, the details are dynamically updated.
@@ -46,3 +51,5 @@ Ex: Username is **vjspranav** and id is **12345**
 * Links the user of tagged message to the linux username mentioned, dooes not work if mentioned user already is linked  
 ### /storage
 * Checks the storage occupied by the linked user running the command
+### /build
+* Trigger jenkins builds remotely
