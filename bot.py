@@ -16,12 +16,17 @@ from telegram.ext import CommandHandler, ConversationHandler
 # Custom imports
 from userHandler import add, uadd, suadd
 from userFunctions import storage
+from jenkins import build
 
 config={}
 with open("config.json") as json_config_file:
     config = json.load(json_config_file)
 
 token = config["telegram"]["token"]
+jenkins_url = config["jenkins"]["host"]
+jenkins_user = config["jenkins"]["user"]
+jenkins_pass = config["jenkins"]["pass"]
+
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -36,9 +41,8 @@ dispatcher = updater.dispatcher
 
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Hi! Welcome to the Linux Management Bot.")
- 
 
-functions = [start, suadd, uadd, add, storage]
+functions = [start, suadd, uadd, add, storage, build]
 for function in functions:
     handler = CommandHandler(function.__name__, function)
     dispatcher.add_handler(handler)
