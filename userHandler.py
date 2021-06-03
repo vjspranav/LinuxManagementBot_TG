@@ -45,6 +45,14 @@ def uadd(update, context):
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="Already user")
 
+def del_link(uid):
+    linux_users = {}
+    with open("users.json") as json_config_file:
+        linux_users = json.load(json_config_file)
+    deleted = linux_users.pop(str(uid))
+    with open("users.json", "w") as json_config_file:
+        json.dump(linux_users, json_config_file, indent=4)
+    return deleted
 
 @superuser_restricted
 def add(update, context):
@@ -53,7 +61,6 @@ def add(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text="Username not provided")
         return
     luname = inp[1]
-    ## To do
     if not user_exists(luname):
         context.bot.send_message(chat_id=update.effective_chat.id, text="User doesn't exist on server")
         return
