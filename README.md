@@ -53,3 +53,5 @@ Ex: Username is **vjspranav** and id is **12345**
 * Checks the storage occupied by the linked user running the command
 ### /build
 * Trigger jenkins builds remotely
+### /set <dir name>
+* Set permissions for jenkins builds

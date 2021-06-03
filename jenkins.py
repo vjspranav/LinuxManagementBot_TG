@@ -58,3 +58,33 @@ def build(update, context):
         sent.edit_text(l+success)
     else:
         sent.edit_text(l+fail)
+
+def user_exists(username):
+    if os.path.exists('/home/' + username):
+        return True
+    return False
+
+@user_restricted
+def set(update, context):
+    uid = update.effective_user.id
+    with open("users.json") as json_config_file:
+        linux_users = json.load(json_config_file)
+    if str(uid) not in linux_users.keys():
+        context.bot.send_message(chat_id=update.effective_chat.id, text="User not linked to any linux user")
+        return
+    user = linux_users[str(uid)]['linux_username']
+    if not user_exists(user):
+        sent = context.bot.send_message(chat_id=update.effective_chat.id, text="The connected linux username does not exist.\nDeleting link")
+        deleted = linux_users.pop(str(uid))
+        with open("users.json", "w") as json_config_file:
+         json.dump(linux_users, json_config_file, indent=4)
+        sent.edit_text('Deleted Link of user @' + deleted['tg_username'] + ' with linux user ' + deleted['linux_username'] + '\nAs the user no longer exists')
+        return
+    inp = update.message.text
+    if len(inp.split(" ")) == 1:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Dir not provided")
+        return
+    inp = inp.split(" ")
+    command='chown ' + user + ':jenkins /home/' + user + '/%s -R'%(inp[1])
+    os.system(command)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Done setting up permissions for %s dir"%(inp[1]))
