@@ -58,3 +58,37 @@ def storage(update, context):
     size = du('/home/' + user)
     sent.edit_text("Size of " +  user + " home directory on server: " + str(size) )
     context.bot.send_message(chat_id=update.effective_chat.id, text="Size of " +  user + " home directory on server: " + str(size))
+
+@user_restricted
+def request(update, context):
+    uid = update.effective_user.id
+    # with open("users.json") as json_config_file:
+    #     linux_users = json.load(json_config_file)
+    # user = linux_users[str(uid)]['linux_username']
+
+    commands = ' '.join(update.message.text.split(' ')[1:])
+    if len(commands) != 0:
+        commands = commands.split(',')
+    request_commands = {}
+    # If exists read request_commands.json
+    if os.path.exists('request_commands.json'):
+        with open("request_commands.json", 'r') as json_config_file:
+            request_commands = json.load(json_config_file)
+    # If no commands given, show all commands
+    if len(commands) == 0:
+        # request_commands is a dict of user: list
+        if str(uid) in request_commands:
+            context.bot.send_message(chat_id=update.effective_chat.id, text="Your requested commands are\n" + '\n'.join(request_commands[str(uid)]) + '\nPlease contact admin to get approval')
+        else:
+            context.bot.send_message(chat_id=update.effective_chat.id, text="You have no requested commands to be run")
+        return
+
+    if str(uid) not in request_commands.keys():
+        print(str(uid) + " not in request_commands")
+        request_commands[str(uid)] = []
+    
+    request_commands[str(uid)].extend(commands)
+    with open("request_commands.json", "w") as json_config_file:
+        json.dump(request_commands, json_config_file, indent=4)
+    
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Your requested commands are\n" + '\n'.join(request_commands[str(uid)]) + '\nPlease contact admin to get approval')

@@ -14,8 +14,8 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler, ConversationHandler
 
 # Custom imports
-from userHandler import add, uadd, suadd
-from userFunctions import storage
+from userHandler import add, uadd, suadd, run, approve_command, reject_command
+from userFunctions import storage, request
 from jenkins import build, set
 
 config={}
@@ -42,7 +42,7 @@ dispatcher = updater.dispatcher
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Hi! Welcome to the Linux Management Bot.")
 
-functions = [start, suadd, uadd, add, storage, build, set]
+functions = [start, suadd, uadd, add, storage, build, set, request, approve_command, reject_command, run]
 for function in functions:
     handler = CommandHandler(function.__name__, function)
     dispatcher.add_handler(handler)
