@@ -1,5 +1,5 @@
 from restrictions import user_restricted, superuser_restricted, linux_users, restricted
-from userFunctions import user_exists
+from userFunctions import user_exists, del_link
 from os import path
 import json
 
@@ -44,15 +44,6 @@ def uadd(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text="User added")
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text="Already user")
-
-def del_link(uid):
-    linux_users = {}
-    with open("users.json") as json_config_file:
-        linux_users = json.load(json_config_file)
-    deleted = linux_users.pop(str(uid))
-    with open("users.json", "w") as json_config_file:
-        json.dump(linux_users, json_config_file, indent=4)
-    return deleted
 
 @superuser_restricted
 def add(update, context):

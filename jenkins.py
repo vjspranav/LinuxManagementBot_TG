@@ -1,4 +1,6 @@
 import requests
+import os
+import json
 
 from restrictions import user_restricted, linux_users
 
@@ -85,6 +87,7 @@ def set(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text="Dir not provided")
         return
     inp = inp.split(" ")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Setting permissions for %s dir"%(inp[1]))
     command='chown ' + user + ':jenkins /home/' + user + '/%s -R'%(inp[1])
     os.system(command)
     context.bot.send_message(chat_id=update.effective_chat.id, text="Done setting up permissions for %s dir"%(inp[1]))
